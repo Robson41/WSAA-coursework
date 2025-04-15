@@ -24,10 +24,18 @@ url = "https://api.github.com/repos/Robson41/aprivateone/contents/wsaa-code.json
 #apikey = cfg["access_private_repo"]
 
 #GET the url using the apikey
-response = requests.get(url, auth=('token', apikey))
+headers = {
+    'Authorization': f'token {apikey["access_private_repo"]}',
+    'Accept': 'application/vnd.github.v3+json'
+}
+
+response = requests.get(url, headers=headers)
+
+#response = requests.get(url, auth=('token', apikey))
 
 # Output the HTTP status code to help with debugging.
 print("Status code:", response.status_code)
+
 
 # Parse the response content as JSON.
 # The GitHub API returns a JSON response which includes several keys, one of which is "content".
@@ -68,6 +76,35 @@ with open(local_file_path, 'w') as file:
 
 # Print a success message indicating that the replacement has been completed and the file is saved.
 print("Name updated from Andrew to Mark in wsaa-code.json")
+
+# Step 1: Re-encode the updated content into base64
+# GitHub expects file content in base64 format when uploading via API
+updated_content = json.dumps(data, indent=4) # Convert Python dict back to a JSON string
+encoded_updated_content = base64.b64encode(updated_content.encode('utf-8')).decode('utf-8')
+
+# Step 2: Prepare the payload for the PUT request to update the file
+# This includes:
+# - "message": a commit message for version history
+# - "content": the updated file content (in base64)
+# - "sha": the current version of the file, required to prevent conflicts
+update_payload = {
+    "message": "Updated name from Andrew to Mark", # GitHub commit message
+    "content": encoded_updated_content, # Base64-encoded updated content
+    "sha": content["sha"] # File's current SHA, from earlier GET
+}
+
+# Step 3: Send the PUT request to update the file
+put_response = requests.put(url, headers=headers, data=json.dumps(update_payload))
+
+# Step 4: Check if the update was successful
+# GitHub returns 200 (success) or 201 (created) when the update goes through
+print("PUT status:", put_response.status_code)
+if put_response.status_code == 200 or put_response.status_code == 201:
+    print("File successfully updated and pushed to the repository.")
+else:
+    print("Something went wrong while pushing the file.")
+    print("Error:", put_response.text)
+
 
 
 
