@@ -12,6 +12,7 @@ Handup: Push the program as assignment04-github.py to assignments repository.
 import requests
 import base64
 import json
+from config import apikey
 #from config import apikey as cfg  # The configuration file holds our GitHub access credentials
 
 # Define the URL pointing to the specific file within the GitHub repository.
