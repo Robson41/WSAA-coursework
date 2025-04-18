@@ -98,9 +98,9 @@ put_response = requests.put(url, headers=headers, data=json.dumps(update_payload
 
 # Step 4: Print the result of the update operation
 if put_response.status_code == 200 or put_response.status_code == 201:
-    print("✅ File successfully updated and pushed to GitHub!")
+    print(" File successfully updated and pushed to GitHub!")
 else:
-    print("❌ Failed to update the file.")
+    print(" Failed to update the file.")
     print("Status code:", put_response.status_code)
     print("Response:", put_response.text)
 
