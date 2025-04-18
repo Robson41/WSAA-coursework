@@ -1,4 +1,4 @@
 # This is a python dictionary
 apikey ={
-"access_private_repo" : "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"
+"access_private_repo" : "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"
 }
