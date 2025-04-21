@@ -25,7 +25,7 @@ url = "https://api.github.com/repos/Robson41/aprivateone/contents/wsaa-code.json
 
 #GET the url using the apikey
 headers = {
-    'Authorization': f'token {apikey["access_private_repo"]}',
+    'Authorization': f'token {apikey}',
     'Accept': 'application/vnd.github.v3+json'
 }
 
