@@ -7,8 +7,7 @@ The program should then commit those changes and push the file back to the repos
 
 I do not need to see your keys (see lab2)
 
-Handup: Push the program as assignment04-github.py to assignments repository.
-'''
+Handup: Push the program as assignment04-github.py to assignments repository.'''
 import requests
 import base64
 import json
@@ -24,14 +23,14 @@ url = "https://api.github.com/repos/Robson41/aprivateone/contents/wsaa-code.json
 #apikey = cfg["access_private_repo"]
 
 #GET the url using the apikey
+#response = requests.get(url, auth=('token', apikey))
+
 headers = {
-    'Authorization': f'token {apikey}',
+    'Authorization': f'token {apikey["access_private_repo"]}',
     'Accept': 'application/vnd.github.v3+json'
 }
 
 response = requests.get(url, headers=headers)
-
-#response = requests.get(url, auth=('token', apikey))
 
 # Output the HTTP status code to help with debugging.
 print("Status code:", response.status_code)
